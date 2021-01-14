@@ -1,17 +1,17 @@
-const path = require('path')
+const path = require('path');
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV === 'production';
 
 // paths
-const root = process.cwd()
-const src = path.resolve(root, './src')
+const root = process.cwd();
+const src = path.resolve(root, './src');
 
 module.exports = {
   useFileSystemPublicRoutes: false,
   webpack(config, { isServer }) {
     // Let webpack know about the theme alias to be able to use it in SCSS
     // TS aliases should be set in the tsconfig
-    config.resolve.alias['theme'] = path.resolve(src, './theme')
+    config.resolve.alias['theme'] = path.resolve(src, './theme');
 
     // Add svgr support
     config.module.rules.push({
@@ -42,7 +42,7 @@ module.exports = {
           },
         },
       ],
-    })
+    });
 
     // Add resjson support
     config.module.rules.push({
@@ -51,7 +51,7 @@ module.exports = {
       loader: 'file-loader',
       options: {
         name: `${config.assetPrefix || config.basePath || ''}${
-          isProd ? '[path][name].[hash:8].[ext]' : '[path][name].[ext]'
+          isProd ? '[path][name].[contentHash:8].[ext]' : '[path][name].[ext]'
         }`,
         // next puts all their files in the _next folder, so follow the same standard
         publicPath: `${
@@ -63,8 +63,31 @@ module.exports = {
         // no need to copy the file if we're running in node --we just need the URI
         emitFile: !isServer,
       },
-    })
+    });
 
-    return config
+    // Catch-all file loader
+    config.module.rules.push({
+      // Exclude `js` files to keep "css" loader working as it injects
+      // its runtime that would otherwise processed through "file" loader.
+      // Also exclude `html` and `json` extensions so they get processed
+      // by webpacks internal loaders.
+      exclude: [/\.(js|ts|jsx|tsx|mjs|scss|map)$/, /\.html$/, /\.json$/],
+      loader: 'file-loader',
+      options: {
+        name: `${
+          config.assetPrefix || config.basePath || ''
+        }${'[path][name].[contentHash:8].[ext]'}`,
+        // next puts all their files in the _next folder, so follow the same standard
+        publicPath: `${
+          config.assetPrefix || config.basePath || ''
+        }/_next/static/media/`,
+        // On the server we the path is directly /static instead of /_next/static so account for that
+        outputPath: `${isServer ? '../' : ''}static/media/`,
+        // no need to copy the file if we're running in node --we just need the URI
+        emitFile: !isServer,
+      },
+    });
+
+    return config;
   },
-}
+};

@@ -1,11 +1,11 @@
-import Head from 'next/head'
-import { Link, Switch, Route, Redirect } from 'react-router-dom'
-import classnames from 'classnames/bind'
+import Head from 'next/head';
+import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import classnames from 'classnames/bind';
 
-import styles from './index.module.scss'
-const cx = classnames.bind(styles)
+import styles from './index.module.scss';
+const cx = classnames.bind(styles);
 
-import LogoSrc, { ReactComponent as Logo } from './vercel.svg'
+import LogoSrc, { ReactComponent as Logo } from './vercel.svg';
 
 export default function Home() {
   return (
@@ -27,7 +27,7 @@ export default function Home() {
 
         <button
           onClick={() => {
-            window.alert('With typescript and Jest')
+            window.alert('With typescript and Jest');
           }}
         >
           Test Button
@@ -101,17 +101,17 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  )
+  );
 }
 
 function Root() {
-  return <h2>Root</h2>
+  return <h2>Root</h2>;
 }
 
 function About() {
-  return <h2>About</h2>
+  return <h2>About</h2>;
 }
 
 function Dashboard() {
-  return <h2>Dashboard</h2>
+  return <h2>Dashboard</h2>;
 }

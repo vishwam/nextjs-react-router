@@ -13,18 +13,6 @@
     "test": "jest",
     "test-all": "npm run lint && npm run type-check && npm test"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm run type-check"
-    }
-  },
-  "lint-staged": {
-    "*.@(ts|tsx)": [
-      "npm run lint",
-      "npm run format"
-    ]
-  },
   "dependencies": {
     "@fluentui/react": "^7.155.3",
     "@microsoft/azure-iot-ux-fluent-css": "^8.1.4",
@@ -52,7 +40,6 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-react": "^7.19.0",
-    "husky": "^4.2.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^25.2.3",
     "jest-watch-typeahead": "^0.5.0",
